@@ -1,7 +1,8 @@
+//
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:get_connect_example/home/home_page.dart';
+import 'package:get_connect_example/pages/home/home_page.dart';
 
 void main() {
   runApp(const MyApp());
