@@ -11,6 +11,12 @@ class HomePage extends GetView<HomeController> {
       appBar: AppBar(
         title: const Text('Home Page'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          controller.register();
+        },
+        child: const Icon(Icons.add),
+      ),
       body: controller.obx(
         (state) {
           if (state == null) {
@@ -22,6 +28,8 @@ class HomePage extends GetView<HomeController> {
               itemBuilder: (context, index) {
                 final user = state[index];
                 return ListTile(
+                  onTap: () => controller.updateUser(user),
+                  onLongPress: () => controller.delete(user),
                   title: Text(user.name),
                   subtitle: Text(user.email),
                 );

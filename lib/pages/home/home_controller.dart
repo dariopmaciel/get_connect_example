@@ -32,9 +32,36 @@ class HomeController extends GetxController with StateMixin<List<UserModel>> {
     }
   }
 
-  void register() {}
+  Future<void> register() async {
+    try {
+      final user = UserModel(
+        name: 'Dario P. Maciel',
+        email: 'dariodepaulamaciel@hotmail.com ',
+        password: '1234',
+      );
+      await _repository.save(user);
+      _findAll();
+    } catch (e, s) {
+      log('Erro ao salvar usuario', error: e, stackTrace: s);
+      Get.snackbar('Erro', 'Erro ao salvar usuario');
+    }
+  }
 
-  void updateUser(UserModel user) {}
+  Future<void> updateUser(UserModel user) async {
+    try {
+      user.name = 'Dario P Maciel';
+      user.email = 'ddmaciel@gmail.com';
+      await _repository.updateUser(user);
+      _findAll();
+    } catch (e, s) {
+      log('Erro ao atualizar usuario', error: e, stackTrace: s);
+      Get.snackbar('Erro', 'Erro ao atualizar usuario');
+    }
+  }
 
-  void delete(UserModel user) {}
+  Future<void> delete(UserModel user) async {
+    await _repository.deleteUser(user);
+    Get.snackbar('Sucesso', "Usuario deletado com sucesso");
+    _findAll();
+  }
 }

@@ -28,7 +28,7 @@ class UserRepository {
 
   Future<void> deleteUser(UserModel user) async {
     final result =
-        await restCliente.delete('//10.0.0.107:8080/users/${user.id}');
+        await restCliente.delete('http://10.0.0.107:8080/users/${user.id}');
     if (result.hasError) {
       throw Exception(
           "Erro ao salvar usuario (${result.statusText})-(${result.statusCode})-(${result.status})");
