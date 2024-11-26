@@ -14,7 +14,7 @@ class UserRepository {
       throw Exception(
           'Erro ao buscar usuário (${result.statusText})-(${result.statusCode})-(${result.status})');
     }
-    return result.body.map((user) => UserModel.fromMap(user)).toList();
+    return result.body.map<UserModel>((user) => UserModel.fromMap(user)).toList();
   }
 
   Future<void> save(UserModel user) async {
