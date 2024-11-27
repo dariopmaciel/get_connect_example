@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:get_connect_example/models/user_model.dart';
 
@@ -9,6 +11,20 @@ class UserRepository {
   UserRepository() {
     restCliente.httpClient.baseUrl = 'http://10.0.0.107:8080';
     // restCliente.httpClient.errorSafety = false;
+
+    restCliente.httpClient.addRequestModifier<Object?>(
+      (request) {
+        //calculo de tempo de resposta
+        log('URL que está sendo chamada>>>${request.url.toString()}');
+        //alteração do request
+        request.headers['start-time'] = DateTime.now().toIso8601String();
+        return request;
+      },
+    );
+    restCliente.httpClient.addResponseModifier((request, response) {
+      response.headers?['end-time'] = DateTime.now().toIso8601String();
+      return response;
+    });
   }
 
   Future<List<UserModel>> findAll() async {
@@ -21,6 +37,9 @@ class UserRepository {
       throw Exception(
           'Erro ao buscar usuário ->(${result.statusText})->(${result.statusCode})->(${result.status})');
     }
+
+    log(result.request?.headers['start-time'] ?? '');
+    log(result.headers?['end-time'] ?? '');
 
     return result.body
         .map<UserModel>((user) => UserModel.fromMap(user))
