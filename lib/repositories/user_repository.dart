@@ -12,10 +12,35 @@ class UserRepository {
     restCliente.httpClient.baseUrl = 'http://10.0.0.107:8080';
     // restCliente.httpClient.errorSafety = false;
 
+    restCliente.httpClient.addAuthenticator<Object?>(
+      (request) async {
+        log('Autenticador =====addAuthenticator ======>>>>>>>>>>>>> CHAMADO');
+        const email = 'ddmaciel@gmail.com';
+        const password = '123123';
+        final result = await restCliente.post('/auth', {
+          "email": email,
+          "password": password,
+        });
+
+        if (!result.hasError) {
+          //!https://pub.dev/packages/json_rest_server
+          final accessToken = result.body['access_token'];
+          final type = result.body['type'];
+          if (accessToken != null) {
+            request.headers['authorization'] = '$type $accessToken';
+          }
+        }else{
+          log('Erro ao fazer login ${result.statusText}');
+        }
+        return request;
+      },
+    );
+
+//bug do request modifies '<Object?>'
     restCliente.httpClient.addRequestModifier<Object?>(
       (request) {
         //calculo de tempo de resposta
-        log('URL que está sendo chamada>>>${request.url.toString()}');
+        log('URL que esta sendo chamada ==>>> ${request.url.toString()}');
         //alteração do request
         request.headers['start-time'] = DateTime.now().toIso8601String();
         return request;
@@ -35,7 +60,7 @@ class UserRepository {
 
     if (result.hasError) {
       throw Exception(
-          'Erro ao buscar usuário ->(${result.statusText})->(${result.statusCode})->(${result.status})');
+          'Erro ao buscar usuario ->(${result.statusText})->(${result.statusCode})->(${result.status})');
     }
 
     log(result.request?.headers['start-time'] ?? '');

@@ -27,7 +27,7 @@ class HomeController extends GetxController with StateMixin<List<UserModel>> {
       }
       change(users, status: statusReturn);
     } catch (e, s) {
-      log('Erro ao buscar usuparios', error: e, stackTrace: s);
+      log('Erro ao buscar usuarios', error: e, stackTrace: s);
       change(state, status: RxStatus.error());
     }
   }

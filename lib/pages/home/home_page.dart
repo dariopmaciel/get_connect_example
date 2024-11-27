@@ -21,7 +21,7 @@ class HomePage extends GetView<HomeController> {
         (state) {
           if (state == null) {
             return const Center(
-              child: Text("Nenhum usuário cadastradp"),
+              child: Text("Nenhum usuario cadastrado"),
             );
           }
           return ListView.builder(
@@ -36,9 +36,9 @@ class HomePage extends GetView<HomeController> {
               },
               itemCount: state.length);
         },
-        onEmpty: const Center(child: Text('Nenhum usuário cadastrado')),
+        onEmpty: const Center(child: Text('Nenhum usuario cadastrado')),
         onError: (error) =>
-            const Center(child: Text('Erro ao buscar usuários')),
+            const Center(child: Text('Erro ao buscar usuarios')),
       ),
     );
   }
